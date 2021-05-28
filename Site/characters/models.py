@@ -4,6 +4,9 @@ from Site.mixins import TimeStampMixin
 
 
 class Character(TimeStampMixin):
+    EXPORT_FIELDS = [
+        'name', 'height', 'mass', 'hair_color', 'eye_color', 'birth_year', 'gender', 'edited']
+
     GENDER_MALE = 1
     GENDER_FEMALE = 2
     GENDER_CHOICES = (
