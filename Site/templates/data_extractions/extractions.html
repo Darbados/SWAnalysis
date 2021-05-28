@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Data Extractions{% endblock %}
+
+{% block body %}
+    <main>
+        <header>
+            <h1>Star Wars - Data extractions</h1>
+        </header>
+        <div>
+            <form method="post">
+                {% csrf_token %}
+
+                <button type="submit">Fetch</button>
+            </form>
+            <table>
+                <tbody>
+                    {% for extraction in extractions %}
+                        <tr>
+                            <td>{{ extraction.export }}</td>
+                            <td>Download</td>
+                            <td>Inspect</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}

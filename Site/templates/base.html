@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock %}</title>
+    {% block additional_css %}{% endblock %}
+{#    <link rel="stylesheet" href="{% static 'store_admin/main.css' %}">#}
+</head>
+<body>
+<div>
+    {% block body %}{% endblock %}
+</div>
+</body>
+</html>
