@@ -20,6 +20,10 @@ class DataExport(TimeStampMixin):
     export = models.FileField(upload_to='collections_exports/')
     collection_type = models.IntegerField(choices=COLLECTION_CHOICES, db_index=True)
 
+    @property
+    def export_name(self):
+        return self.export.name.split('/')[-1]
+
     @classmethod
     def create_from_fetched_data(cls, data):
         contents = io.StringIO()
@@ -36,3 +40,6 @@ class DataExport(TimeStampMixin):
             export=ContentFile(contents.getvalue(), name='people_collection.csv'),
             collection_type=cls.COLLECTION_CHARACTERS,
         )
+
+    class Meta:
+        ordering = ('-created_at',)

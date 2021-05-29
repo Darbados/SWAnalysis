@@ -1,0 +1,18 @@
+{% load static extraction_filters %}
+
+<div>
+    {% if pages.has_previous %}
+        <a href="{% add_get_params request.get_full_path page=pages.previous_page_number %}">
+            &lt; &lt; previous
+        </a>
+    {% endif %}
+    Page <b>{{ pages.number }}</b> of <b>{{ pages.paginator.num_pages }}</b>
+    {% if pages.has_next %}
+        <a href="{% add_get_params request.get_full_path page=pages.next_page_number %}">
+            next &gt; &gt;
+        </a>
+        <a href="{% add_get_params request.get_full_path page=pages.paginator.num_pages %}">
+            Last
+        </a>
+    {% endif %}
+</div>
