@@ -31,7 +31,11 @@ def exports(request):
 
 
 def export_download(request, export_id):
-    export = get_object_or_404(DataExport, id=export_id)
+    try:
+        export = DataExport.objects.get(id=export_id)
+    except DataExport.DoesNotExist:
+        messages.error(request, 'Requested export does not exist anymore.')
+        return redirect('data_extractions:exports')
 
     return sendfile.sendfile(
         request,
@@ -42,7 +46,13 @@ def export_download(request, export_id):
 
 
 def export_inspect(request, export_id):
-    export = get_object_or_404(DataExport, id=export_id)
+    # Move that code into decorator
+    try:
+        export = DataExport.objects.get(id=export_id)
+    except DataExport.DoesNotExist:
+        messages.error(request, 'Requested export does not exist anymore.')
+        return redirect('data_extractions:exports')
+
     rows_multiplier = int(request.GET.get('multiplier', 1))
 
     rows_to_display = export.get_rows_to_display(rows_multiplier)
