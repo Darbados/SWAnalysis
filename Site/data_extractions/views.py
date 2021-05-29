@@ -1,12 +1,10 @@
-import csv
-import io
-
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db import transaction
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 
-from characters.data_collector import CharactersDataCollector
+from collectors.character_collector import CharacterDataCollector
 from data_extractions.models import DataExport
 
 
@@ -29,10 +27,12 @@ def exports(request):
 
 
 @require_POST
-def fetch_collection_data(request):
-    collector = CharactersDataCollector()
+def export_collection_data(request):
+    # This view could be easily extended to export data based on user choice.
+    collector = CharacterDataCollector()
     collector.collect()
 
-    DataExport.create_from_fetched_data(collector.results)
-    messages.success(request, 'People collection was saved successfully.')
+    with transaction.atomic():
+        DataExport.create_from_fetched_data(collector.results)
+    messages.success(request, 'People collection is saved successfully.')
     return redirect('data_extractions:exports')

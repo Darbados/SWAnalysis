@@ -5,5 +5,5 @@ app_name = 'data_extractions'
 
 urlpatterns = [
     path('exports', views.exports, name='exports'),
-    path('fetch-collection', views.fetch_collection_data, name='fetch_collection_data'),
+    path('export-collection', views.export_collection_data, name='export_collection_data'),
 ]
