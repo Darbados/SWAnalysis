@@ -16,6 +16,7 @@ class DataExport(TimeStampMixin):
         (COLLECTION_CHARACTERS, 'Characters'),
         (COLLECTION_WORLDS, 'Worlds'),
     )
+    DEFAULT_ROWS_TO_DISPLAY = 10
 
     export = models.FileField(upload_to='collections_exports/')
     collection_type = models.IntegerField(choices=COLLECTION_CHOICES, db_index=True)
@@ -23,6 +24,19 @@ class DataExport(TimeStampMixin):
     @property
     def export_name(self):
         return self.export.name.split('/')[-1]
+
+    def get_rows_to_display(self, rows_multiplier):
+        rows_count = 0
+        with open(self.export.path, 'r') as source:
+            reader = csv.reader(source)
+
+            for row in reader:
+                if row[0] == 'name':
+                    continue
+
+                if rows_count < self.DEFAULT_ROWS_TO_DISPLAY * rows_multiplier:
+                    yield row
+                    rows_count += 1
 
     @classmethod
     def create_from_fetched_data(cls, data):

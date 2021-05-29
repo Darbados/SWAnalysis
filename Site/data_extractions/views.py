@@ -2,6 +2,7 @@ import sendfile
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import transaction
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
@@ -40,8 +41,16 @@ def export_download(request, export_id):
     )
 
 
+def export_inspect(request, export_id):
+    export = get_object_or_404(DataExport, id=export_id)
+    rows_multiplier = int(request.GET.get('multiplier', 1))
+
+    rows_to_display = export.get_rows_to_display(rows_multiplier)
+    return HttpResponse(r for r in rows_to_display)
+
+
 @require_POST
-def export_collection_data(request):
+def save_collection_data(request):
     # This view could be easily extended to export data based on user choice.
     collector = CharactersDataCollector()
     collector.collect()
