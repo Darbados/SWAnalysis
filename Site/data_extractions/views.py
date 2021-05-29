@@ -4,7 +4,7 @@ from django.db import transaction
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 
-from collectors.character_collector import CharacterDataCollector
+from data_extractions.collectors.characters_collector import CharactersDataCollector
 from data_extractions.models import DataExport
 
 
@@ -29,7 +29,7 @@ def exports(request):
 @require_POST
 def export_collection_data(request):
     # This view could be easily extended to export data based on user choice.
-    collector = CharacterDataCollector()
+    collector = CharactersDataCollector()
     collector.collect()
 
     with transaction.atomic():
