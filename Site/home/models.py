@@ -1,7 +1,7 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 
-from Site.mixins import TimeStampMixin
+from AnalysisBase.mixins import TimeStampMixin
 
 
 class AnalystUser(AbstractBaseUser, TimeStampMixin):

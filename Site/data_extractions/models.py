@@ -4,7 +4,7 @@ import io
 from django.core.files.base import ContentFile
 from django.db import models
 
-from Site.mixins import TimeStampMixin
+from AnalysisBase.mixins import TimeStampMixin
 from characters.models import Character
 from data_extractions.utils import transform_name, transform_field_data
 
@@ -41,7 +41,7 @@ class DataExport(TimeStampMixin):
                     rows_count += 1
 
     @classmethod
-    def create_from_fetched_data(cls, data):
+    def create_from_fetched_data(cls, data, planets_data):
         contents = io.StringIO()
         writer = csv.writer(contents)
 
@@ -49,8 +49,9 @@ class DataExport(TimeStampMixin):
 
         for hero_data in data:
             writer.writerow([
-                transform_field_data(field, hero_data.get(field)) for field in
-                Character.EXPORT_FIELDS])
+                transform_field_data(field, hero_data.get(field), extra_data=planets_data)
+                for field in Character.EXPORT_FIELDS
+            ])
 
         cls.objects.create(
             export=ContentFile(contents.getvalue(), name='people_collection.csv'),

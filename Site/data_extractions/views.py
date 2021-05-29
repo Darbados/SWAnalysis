@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST
 
 from characters.models import Character
 from data_extractions.collectors.characters_collector import CharactersDataCollector
+from data_extractions.collectors.worlds_collector import WorldsDataCollector
 from data_extractions.models import DataExport
 
 
@@ -58,10 +59,15 @@ def export_inspect(request, export_id):
 @require_POST
 def save_collection_data(request):
     # This view could be easily extended to export data based on user choice.
-    collector = CharactersDataCollector()
-    collector.collect()
+    character_collector = CharactersDataCollector()
+    character_collector.collect()
+
+    # Obtain planets data
+    worlds_collector = WorldsDataCollector()
+    worlds_collector.collect()
 
     with transaction.atomic():
-        DataExport.create_from_fetched_data(collector.results)
-    messages.success(request, 'People collection is saved successfully.')
+        DataExport.create_from_fetched_data(
+            character_collector.results, worlds_collector.get_url_name_dict())
+        messages.success(request, 'People collection is saved successfully.')
     return redirect('data_extractions:exports')

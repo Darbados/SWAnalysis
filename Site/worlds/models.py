@@ -1,5 +1,5 @@
 from django.db import models
-from Site.mixins import TimeStampMixin
+from AnalysisBase.mixins import TimeStampMixin
 
 
 class Planet(TimeStampMixin):

@@ -7,36 +7,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'AnalysisBase/css/base.css' %}">
     {% block additional_css %}{% endblock %}
-    {# This is indeed ugly way to add styles for the base, but I did it to save time #}
-    <style>
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-
-        li {
-            float: left;
-        }
-
-        li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        li a:hover {
-            background-color: #111;
-        }
-    </style>
 </head>
 <body>
-<ul>
+{% include '_partials/_messages.html' %}
+<ul class="navigation">
   <li><a class="active" href="{% url 'data_extractions:exports' %}">Extractions</a></li>
   <li><a href="#">People</a></li>
   <li><a href="#">Worlds</a></li>

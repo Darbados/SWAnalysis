@@ -23,9 +23,9 @@ class BaseDataCollector:
 
         if response.status_code == 200:
             response_json = response.json()
+            self.results.extend(response_json['results'])
             if response_json['next'] is not None:
                 next_page_url_parsed = urlparse(response_json['next'])
-                self.results.extend(response_json['results'])
                 return parse_qs(next_page_url_parsed.query)['page']
         else:
             return None

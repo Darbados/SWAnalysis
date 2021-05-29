@@ -1,12 +1,12 @@
 from django.db import models
 
-from Site.mixins import TimeStampMixin
+from AnalysisBase.mixins import TimeStampMixin
 
 
 class Character(TimeStampMixin):
     EXPORT_FIELDS = [
         'name', 'height', 'mass', 'hair_color', 'skin_color', 'eye_color',
-        'birth_year', 'gender', 'edited',
+        'birth_year', 'gender', 'homeworld', 'edited',
     ]
 
     name = models.CharField(max_length=128)
