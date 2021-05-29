@@ -37,7 +37,7 @@ def transform_field_data(field_name, field_data):
     """
 
     if field_name != 'edited':
-        return field_data
+        return field_data.encode('utf-8')
     try:
         return datetime.strptime(field_data, _ISO_FORMAT).date()
     except ValueError:

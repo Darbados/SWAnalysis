@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static extraction_filters %}
 
 {% block title %}Export inspect{% endblock %}
 {% block additional_css %}
@@ -10,36 +10,30 @@
 {% block body %}
     <main>
         <header>
-            <h1>Star Wars - People extractions</h1>
+            <h1>Export - <span class="color-red">{{ export.export_name }}</span> inspect</h1>
         </header>
         <div>
-            <form method="post" action="{% url 'data_extractions:save_collection_data' %}">
-                {% csrf_token %}
-                <button type="submit" class="button-download">Fetch</button>
-            </form>
             <table id="extractions">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Export filename</th>
-                        <th>Download</th>
-                        <th>Inspect</th>
+                        {% for field_name in Character.EXPORT_FIELDS %}
+                            <th>{{ field_name }}</th>
+                        {% endfor %}
                     </tr>
                 </thead>
                 <tbody>
-                    {% for export in extractions %}
+                    {% for row in rows_to_display %}
                         <tr>
-                            <td>{{ export.created_at }}</td>
-                            <td>{{ export.export_name }}</td>
-                            <td><a href="{% url 'data_extractions:export_download' export.id %}" class="button-download">Download</a></td>
-                            <td><a href="{% url 'data_extractions:export_inspect' export.id %}" class="button-inspect">Inspect</a></td>
+                            {% for value in row %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            {% with pages=extractions %}
-                {% include '_partials/_paginator.html' %}
-            {% endwith %}
+            <a href="{% add_get_params request.get_full_path multiplier=multiplier %}" class="button-inspect margin-small-top">
+                Load more
+            </a>
         </div>
     </main>
 {% endblock %}

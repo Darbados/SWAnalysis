@@ -31,6 +31,8 @@ class DataExport(TimeStampMixin):
             reader = csv.reader(source)
 
             for row in reader:
+                if not row:
+                    continue
                 if row[0] == 'name':
                     continue
 

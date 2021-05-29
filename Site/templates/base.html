@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}{% endblock %}</title>
     {% block additional_css %}{% endblock %}
+    {# This is indeed ugly way to add styles for the base, but I did it to save time #}
     <style>
         ul {
             list-style-type: none;
@@ -36,7 +37,7 @@
 </head>
 <body>
 <ul>
-  <li><a class="active" href="#">Extractions</a></li>
+  <li><a class="active" href="{% url 'data_extractions:exports' %}">Extractions</a></li>
   <li><a href="#">People</a></li>
   <li><a href="#">Worlds</a></li>
 </ul>
