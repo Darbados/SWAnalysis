@@ -43,9 +43,9 @@ def download(request, collection_id):
 
     return sendfile.sendfile(
         request,
-        collection.export.path,
+        collection.file.path,
         attachment=True,
-        attachment_filename=collection.export_name,
+        attachment_filename=collection.collection_file_name,
     )
 
 
@@ -56,7 +56,7 @@ def inspect(request, collection_id):
         messages.error(request, 'Requested collection does not exist anymore.')
         return redirect('data_collections:index')
 
-    de_table = petl.fromcsv(collection.export.path, encoding='utf-8')
+    de_table = petl.fromcsv(collection.file.path, encoding='utf-8')
     rows_multiplier = int(request.GET.get('multiplier', 1))
     rows_to_display = get_rows_to_display(de_table, rows_multiplier)
 
@@ -77,7 +77,7 @@ def collection_value_counts(request, collection_id):
         messages.error(request, 'Requested collection does not exist anymore.')
         return redirect('data_collections:index')
 
-    de_table = petl.fromcsv(collection.export.path, encoding='utf-8')
+    de_table = petl.fromcsv(collection.file.path, encoding='utf-8')
     counts_form = ValueCountsForm(request.GET or None, header_fields=petl.header(de_table))
     value_counts = counts_form.get_changed_fields()
     value_counts_data = []

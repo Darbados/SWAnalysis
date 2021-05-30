@@ -17,12 +17,12 @@ class DataCollection(TimeStampMixin):
     )
     DEFAULT_ROWS_TO_DISPLAY = 10
 
-    export = models.FileField(upload_to='collections/')
+    file = models.FileField(upload_to='collections/')
     collection_type = models.IntegerField(choices=COLLECTION_CHOICES, db_index=True)
 
     @property
     def collection_file_name(self):
-        return self.export.name.split('/')[-1]
+        return self.file.name.split('/')[-1]
 
     @classmethod
     def create_from_fetched_data(cls, data):
@@ -43,7 +43,7 @@ class DataCollection(TimeStampMixin):
             writer.writerow([hero_data.get(field) for field in Person.EXPORT_FIELDS])
 
         cls.objects.create(
-            export=ContentFile(contents.getvalue(), name='people_collection.csv'),
+            file=ContentFile(contents.getvalue(), name='people_collection.csv'),
             collection_type=cls.COLLECTION_CHARACTERS,
         )
 

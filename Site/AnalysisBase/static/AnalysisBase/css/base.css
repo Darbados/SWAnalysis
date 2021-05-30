@@ -25,3 +25,15 @@
 .spacing-small-bottom {
     margin-bottom: 10px;
 }
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.color-red {
+    color: red;
+}
+
+.margin-small-top {
+    margin-top: 10px;
+}
