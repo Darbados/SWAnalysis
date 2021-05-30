@@ -7,7 +7,6 @@ from django.db import models
 
 from AnalysisBase.mixins import TimeStampMixin
 from characters.models import Character
-from data_extractions.utils import transform_name, transform_field_data
 
 
 class DataExport(TimeStampMixin):
@@ -46,11 +45,12 @@ class DataExport(TimeStampMixin):
         contents = io.StringIO()
         writer = csv.writer(contents)
 
-        writer.writerow([transform_name(field) for field in Character.EXPORT_FIELDS])
+        writer.writerow(Character.EXPORT_FIELDS)
 
         for hero_data in data:
             writer.writerow([
-                transform_field_data(field, hero_data.get(field), extra_data=planets_data)
+                hero_data.get(field, '').encode('utf-8')
+                if field != 'homeworld' else planets_data[hero_data['homeworld']].encode('utf-8')
                 for field in Character.EXPORT_FIELDS
             ])
 
