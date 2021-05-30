@@ -27,18 +27,16 @@ class DataExport(TimeStampMixin):
 
     def get_rows_to_display(self, rows_multiplier):
         rows_count = 0
-        with open(self.export.path, 'r') as source:
-            reader = csv.reader(source)
+        de_data = petl.fromcsv(self.export.path, encoding='utf-8')
+        for row in de_data:
+            if not row:
+                continue
+            if row[0] == 'name':
+                continue
 
-            for row in reader:
-                if not row:
-                    continue
-                if row[0] == 'name':
-                    continue
-
-                if rows_count < self.DEFAULT_ROWS_TO_DISPLAY * rows_multiplier:
-                    yield row
-                    rows_count += 1
+            if rows_count < self.DEFAULT_ROWS_TO_DISPLAY * rows_multiplier:
+                yield row
+                rows_count += 1
 
     @classmethod
     def create_from_fetched_data(cls, data, planets_data):
