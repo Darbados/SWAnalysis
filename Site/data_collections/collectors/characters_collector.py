@@ -1,4 +1,4 @@
-from data_extractions.collectors.base_collector import BaseDataCollector
+from data_collections.collectors.base_collector import BaseDataCollector
 
 
 class _CharactersDataCollector(BaseDataCollector):

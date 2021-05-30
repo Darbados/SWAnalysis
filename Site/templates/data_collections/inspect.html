@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static analysis_filters %}
+
+{% block title %}Export inspect{% endblock %}
+{% block additional_css %}
+    <link rel="stylesheet" href="{% static 'data_collections/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'data_collections/css/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'data_collections/css/table.css' %}">
+{% endblock %}
+{% block body %}
+    <main>
+        <header>
+            <h1>Collection - <span class="color-red">{{ collection.collection_file_name }}</span> inspect</h1>
+        </header>
+        <div>
+            <table id="extractions">
+                <caption><a href="{% url 'data_collections:value_counts' collection.id %}" class="button button-inspect">Value counts</a></caption>
+                <thead>
+                    <tr>
+                        {% for header_field in table_header %}
+                            <th>{{ header_field }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows_to_display %}
+                        <tr>
+                            {% for value in row %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% add_get_params request.get_full_path multiplier=multiplier %}" class="button button-inspect margin-small-top">
+                Load more
+            </a>
+        </div>
+    </main>
+{% endblock %}

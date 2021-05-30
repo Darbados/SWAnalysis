@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'AnalysisBase',
-    'characters',
-    'data_extractions',
+    'people',
+    'data_collections',
     'home',
     'worlds',
 ]

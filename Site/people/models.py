@@ -3,10 +3,10 @@ from django.db import models
 from AnalysisBase.mixins import TimeStampMixin
 
 
-class Character(TimeStampMixin):
+class Person(TimeStampMixin):
     EXPORT_FIELDS = [
         'name', 'height', 'mass', 'hair_color', 'skin_color', 'eye_color',
-        'birth_year', 'gender', 'homeworld', 'edited',
+        'birth_year', 'gender', 'homeworld', 'date',
     ]
 
     name = models.CharField(max_length=128)
@@ -20,5 +20,5 @@ class Character(TimeStampMixin):
     url = models.URLField()
     # Person character should have only one home world.
     home_world = models.OneToOneField(
-        'worlds.Planet', on_delete=models.PROTECT, related_name='characters')
+        'worlds.Planet', on_delete=models.PROTECT, related_name='people')
 

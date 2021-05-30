@@ -12,6 +12,6 @@ class DataCollectorsViewsTests(TestCase):
     def test_exports_get_success(self):
         """ Test exports page is loaded successfully, with no exports in DB. """
 
-        response = self.client.get(reverse('data_extractions:exports'))
+        response = self.client.get(reverse('data_collections:exports'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['extractions'].number, 1)

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static analysis_filters %}
+
+{% block title %}Export value counts{% endblock %}
+{% block additional_css %}
+    <link rel="stylesheet" href="{% static 'data_collections/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'data_collections/css/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'data_collections/css/table.css' %}">
+{% endblock %}
+{% block body %}
+    <main>
+        <header>
+            <h1>Export - <span class="color-red">{{ collection.collection_file_name }}</span> value counts</h1>
+        </header>
+        <div>
+            <form method="get">
+                {% for field in counts_form %}
+                    <label for="{{ field.id_for_label }}">{{ field.name }}</label>
+                    {{ field }}
+                    {{ field.errors }}
+                {% endfor %}
+                <input type="submit" value="Counts" class="button button-inspect spacing-small-bottom">
+            </form>
+            <table id="extractions">
+                <tbody>
+                    {% for counts_data in value_counts_data %}
+                        <tr>
+                            {% for value in counts_data %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}

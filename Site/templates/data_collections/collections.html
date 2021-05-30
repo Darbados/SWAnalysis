@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static analysis_filters %}
+
+{% block title %}People Collections{% endblock %}
+{% block additional_css %}
+    <link rel="stylesheet" href="{% static 'data_collections/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'data_collections/css/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'data_collections/css/table.css' %}">
+{% endblock %}
+{% block body %}
+    <main>
+        <header>
+            <h1>Star Wars - People collections</h1>
+        </header>
+        <div>
+            <form method="post" action="{% url 'data_collections:save_collection_data' %}">
+                {% csrf_token %}
+                <button type="submit" class="button button-download spacing-small-bottom">Fetch</button>
+            </form>
+            <table id="extractions">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Collection filename</th>
+                        <th>Download</th>
+                        <th>Inspect</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for collection in collections %}
+                        <tr>
+                            <td>{{ collection.created_at }}</td>
+                            <td>{{ collection.collection_file_name }}</td>
+                            <td><a href="{% url 'data_collections:download' collection.id %}" class="button button-download">Download</a></td>
+                            <td><a href="{% url 'data_collections:inspect' collection.id %}" class="button button-inspect">Inspect</a></td>
+                            <td>
+                                <form action="{% url 'data_collections:delete' collection.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" class="button button-remove" value="Delete">
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% with pages=extractions %}
+                {% include '_partials/_paginator.html' %}
+            {% endwith %}
+        </div>
+    </main>
+{% endblock %}
