@@ -3,7 +3,7 @@ from datetime import datetime
 from data_collections.transformers.base_transformer import BaseDataTransformer
 
 
-class CharacterDataTransformer(BaseDataTransformer):
+class PeopleDataTransformer(BaseDataTransformer):
     def transform_data(self, **kwargs):
         for data in self.data:
             self._transform_home_world(data, kwargs.get('worlds_data') or {})

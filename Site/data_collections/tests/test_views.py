@@ -15,7 +15,7 @@ def _create_collections(count):
     for _ in range(count):
         DataCollection.objects.create(
             file=ContentFile(collection_data, 'peopple_collection.csv'),
-            collection_type=DataCollection.COLLECTION_CHARACTERS,
+            collection_type=DataCollection.COLLECTION_PEOPLE,
         )
 
 

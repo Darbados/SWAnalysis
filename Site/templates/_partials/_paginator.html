@@ -1,6 +1,6 @@
 {% load static analysis_filters %}
 
-<div>
+<div class="paginator-navigation">
     {% if pages.has_previous %}
         <a href="{% add_get_params request.get_full_path page=pages.previous_page_number %}">
             &lt; &lt; previous
@@ -10,7 +10,7 @@
     {% if pages.has_next %}
         <a href="{% add_get_params request.get_full_path page=pages.next_page_number %}">
             next &gt; &gt;
-        </a>
+        </a> go to
         <a href="{% add_get_params request.get_full_path page=pages.paginator.num_pages %}">
             Last
         </a>

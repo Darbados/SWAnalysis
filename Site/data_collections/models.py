@@ -9,10 +9,10 @@ from people.models import Person
 
 
 class DataCollection(TimeStampMixin):
-    COLLECTION_CHARACTERS = 1
+    COLLECTION_PEOPLE = 1
     COLLECTION_WORLDS = 2
     COLLECTION_CHOICES = (
-        (COLLECTION_CHARACTERS, 'Characters'),
+        (COLLECTION_PEOPLE, 'People'),
         (COLLECTION_WORLDS, 'Worlds'),
     )
     DEFAULT_ROWS_TO_DISPLAY = 10
@@ -44,7 +44,7 @@ class DataCollection(TimeStampMixin):
 
         cls.objects.create(
             file=ContentFile(contents.getvalue(), name='people_collection.csv'),
-            collection_type=cls.COLLECTION_CHARACTERS,
+            collection_type=cls.COLLECTION_PEOPLE,
         )
 
     class Meta:

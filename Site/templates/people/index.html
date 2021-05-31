@@ -12,10 +12,6 @@
                 {% csrf_token %}
                 <button type="submit" class="button button-download spacing-small-bottom">Fetch</button>
             </form>
-            <form method="post" action="{% url 'people:update_home_world' %}">
-                {% csrf_token %}
-                <button type="submit" class="button button-download spacing-small-bottom">Update home world</button>
-            </form>
             <table id="extractions">
                 <thead>
                     <tr>
@@ -45,8 +41,8 @@
                             <td>{{ person.eye_color }}</td>
                             <td>{{ person.birth_year }}</td>
                             <td>{{ person.gender }}</td>
-                            <td>{{ person.url }}</td>
-                            <td>{{ person.home_world.name }}</td>
+                            <td><a href="{{ person.url }}">{{ person.url }}</a></td>
+                            <td>{{ person.home_world }}</td>
                             <td>{{ person.edited }}</td>
                         </tr>
                     {% endfor %}

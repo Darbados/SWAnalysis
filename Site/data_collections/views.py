@@ -7,17 +7,17 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 
 from people.models import Person
-from data_collections.collectors.characters_collector import CharactersDataCollector
+from data_collections.collectors.people_collector import PeopleDataCollector
 from data_collections.collectors.worlds_collector import WorldsDataCollector
 from data_collections.forms import ValueCountsForm
 from data_collections.models import DataCollection
-from data_collections.transformers.character_transformer import CharacterDataTransformer
+from data_collections.transformers.character_transformer import PeopleDataTransformer
 from data_collections.utils import get_rows_to_display
 
 
 def index(request):
     collections_qs = DataCollection.objects.filter(
-        collection_type=DataCollection.COLLECTION_CHARACTERS)
+        collection_type=DataCollection.COLLECTION_PEOPLE)
     paginator = Paginator(collections_qs, 25)
     page = request.GET.get('page')
 
@@ -115,16 +115,16 @@ def save_collection_data(request):
     """
 
     # This view could be easily extended to export data based on user choice.
-    character_collector = CharactersDataCollector().collect()
+    people_collector = PeopleDataCollector().collect()
 
     # Obtain planets data needed for homeworld transformation
     worlds_collector = WorldsDataCollector().collect()
     worlds_data = worlds_collector.get_url_name_dict()
 
-    character_transformer = CharacterDataTransformer(character_collector.results)
-    character_transformer.transform_data(worlds_data=worlds_data)
+    people_transformer = PeopleDataTransformer(people_collector.results)
+    people_transformer.transform_data(worlds_data=worlds_data)
 
     with transaction.atomic():
-        DataCollection.create_from_fetched_data(character_transformer.data)
+        DataCollection.create_from_fetched_data(people_transformer.data)
         messages.success(request, 'People collection is saved successfully.')
     return redirect('data_collections:index')

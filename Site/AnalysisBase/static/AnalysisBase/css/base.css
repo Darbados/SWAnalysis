@@ -53,3 +53,9 @@
     background-color: #ff0000;
     font-size: 18px;
 }
+
+
+/* Pagination navigation styles */
+.paginator-navigation {
+    margin-top: 10px;
+}
