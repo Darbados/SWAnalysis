@@ -2,11 +2,6 @@
 {% load static analysis_filters %}
 
 {% block title %}Export value counts{% endblock %}
-{% block additional_css %}
-    <link rel="stylesheet" href="{% static 'data_collections/css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'data_collections/css/buttons.css' %}">
-    <link rel="stylesheet" href="{% static 'data_collections/css/table.css' %}">
-{% endblock %}
 {% block body %}
     <main>
         <header>
@@ -15,8 +10,8 @@
         <div>
             <form method="get">
                 {% for field in counts_form %}
-                    <label for="{{ field.id_for_label }}">{{ field.name }}</label>
                     {{ field }}
+                    <label for="{{ field.id_for_label }}">{{ field.name }}</label>
                     {{ field.errors }}
                 {% endfor %}
                 <input type="submit" value="Counts" class="button button-inspect spacing-small-bottom">

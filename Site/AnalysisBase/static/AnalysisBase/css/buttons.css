@@ -20,3 +20,15 @@
 .button-remove {
     background-color: #8b0000; /* Red */
 }
+
+/* Checkbox styles */
+input[type=checkbox] + label {
+    color: #008CBA;
+    font-style: italic;
+    cursor: pointer;
+}
+
+input[type=checkbox]:checked + label {
+    color: #f00;
+    font-style: normal;
+}
