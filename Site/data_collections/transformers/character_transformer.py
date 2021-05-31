@@ -6,7 +6,7 @@ from data_collections.transformers.base_transformer import BaseDataTransformer
 class CharacterDataTransformer(BaseDataTransformer):
     def transform_data(self, **kwargs):
         for data in self.data:
-            self._transform_home_world(data, kwargs['worlds_data'])
+            self._transform_home_world(data, kwargs.get('worlds_data') or {})
             self._transform_edited(data)
 
     @staticmethod
@@ -21,6 +21,8 @@ class CharacterDataTransformer(BaseDataTransformer):
 
     @staticmethod
     def _transform_home_world(data, home_worlds):
+        if not home_worlds:
+            return
         if 'homeworld' not in data:
             return
         data['homeworld'] = home_worlds[data['homeworld']]

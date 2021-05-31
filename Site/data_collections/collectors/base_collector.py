@@ -3,6 +3,10 @@ from urllib.parse import urlparse, parse_qs, urljoin
 import requests
 
 
+class ResponseAPIUrlException(Exception):
+    pass
+
+
 class BaseDataCollector:
     """
     Simple data collector that fetch the data from RESOURCE_URL concequently for all the
@@ -31,6 +35,9 @@ class BaseDataCollector:
             return None
 
     def collect(self, page=1):
+        if self.RESOURCE_API_URL is None:
+            raise ResponseAPIUrlException('RESOURCE_API_URL must be set!')
+
         next_page = self._fetch_data(page)
         if next_page:
             # We need to request every page of the resource API to collect all data
