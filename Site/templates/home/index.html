@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home page{% endblock %}
+{% block body %}
+    <main>
+        <header>
+            <h1>SW (Star wars) analysis site</h1>
+        </header>
+        <div>
+            <section>
+                <h2>Currently you can explore the following content within the site:</h2>
+                <ul>
+                    <li>
+                        <a href="{% url 'data_collections:index' %}">Collections</a> - For now you can only fetch People collections from
+                        <a href="https://swapi.dev">swapi.dev</a>
+                    </li>
+                    <li>
+                        <a href="#">People</a> - You can inspect the stored People records in DB and to re-fetch people / person data
+                    </li>
+                    <li>
+                        <a href="{% url 'worlds:index' %}">Worlds</a> - <span class="color-red">***In development</span>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </main>
+{% endblock %}

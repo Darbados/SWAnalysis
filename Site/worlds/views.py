@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import redirect
 
-# Create your views here.
+
+def index(request):
+    messages.info(request, 'Worlds page is in development')
+    return redirect('home:index')

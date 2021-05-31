@@ -42,3 +42,4 @@ class BaseDataCollector:
         if next_page:
             # We need to request every page of the resource API to collect all data
             return self.collect(next_page)
+        return self

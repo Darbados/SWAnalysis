@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static analysis_filters %}
+
+{% block title %}People{% endblock %}
+{% block body %}
+    <main>
+        <header>
+            <h1>Star Wars - People</h1>
+        </header>
+        <div>
+            <form method="post" action="{% url 'people:save_people' %}">
+                {% csrf_token %}
+                <button type="submit" class="button button-download spacing-small-bottom">Fetch</button>
+            </form>
+            <form method="post" action="{% url 'people:update_home_world' %}">
+                {% csrf_token %}
+                <button type="submit" class="button button-download spacing-small-bottom">Update home world</button>
+            </form>
+            <table id="extractions">
+                <thead>
+                    <tr>
+                        <th>Created at</th>
+                        <th>Name</th>
+                        <th>Height</th>
+                        <th>Mass (kg.)</th>
+                        <th>Hair color</th>
+                        <th>Skin color</th>
+                        <th>Eye color</th>
+                        <th>Birth year</th>
+                        <th>Gender</th>
+                        <th>URL</th>
+                        <th>Home world</th>
+                        <th>Last update at</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in people %}
+                        <tr>
+                            <td>{{ person.created_at }}</td>
+                            <td>{{ person.name }}</td>
+                            <td>{{ person.height }}</td>
+                            <td>{{ person.mass }}</td>
+                            <td>{{ person.hair_color }}</td>
+                            <td>{{ person.skin_color }}</td>
+                            <td>{{ person.eye_color }}</td>
+                            <td>{{ person.birth_year }}</td>
+                            <td>{{ person.gender }}</td>
+                            <td>{{ person.url }}</td>
+                            <td>{{ person.home_world.name }}</td>
+                            <td>{{ person.edited }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% with pages=people %}
+                {% include '_partials/_paginator.html' %}
+            {% endwith %}
+        </div>
+    </main>
+{% endblock %}

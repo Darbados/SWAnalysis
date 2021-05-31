@@ -15,8 +15,9 @@
 <body>
 {% include '_partials/_messages.html' %}
 <ul class="navigation">
-  <li><a class="active" href="{% url 'data_collections:index' %}">Collections</a></li>
-  <li><a href="#">People</a></li>
+  <li><a class="active" href="{% url 'home:index' %}">Home</a></li>
+  <li><a href="{% url 'data_collections:index' %}">Collections</a></li>
+  <li><a href="{% url 'people:index' %}">People</a></li>
   <li><a href="#">Worlds</a></li>
 </ul>
 <div>

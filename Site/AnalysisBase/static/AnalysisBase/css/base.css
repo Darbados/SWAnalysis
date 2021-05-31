@@ -37,3 +37,19 @@
 .margin-small-top {
     margin-top: 10px;
 }
+
+/* Messages styles */
+.info {
+    background-color: #deb887;
+    font-size: 18px;
+}
+
+.success {
+    background-color: #4CAF50;
+    font-size: 18px;
+}
+
+.error {
+    background-color: #ff0000;
+    font-size: 18px;
+}

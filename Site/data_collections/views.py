@@ -115,12 +115,10 @@ def save_collection_data(request):
     """
 
     # This view could be easily extended to export data based on user choice.
-    character_collector = CharactersDataCollector()
-    character_collector.collect()
+    character_collector = CharactersDataCollector().collect()
 
     # Obtain planets data needed for homeworld transformation
-    worlds_collector = WorldsDataCollector()
-    worlds_collector.collect()
+    worlds_collector = WorldsDataCollector().collect()
     worlds_data = worlds_collector.get_url_name_dict()
 
     character_transformer = CharacterDataTransformer(character_collector.results)
