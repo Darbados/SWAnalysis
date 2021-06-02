@@ -14,6 +14,7 @@ either need to run migrate as **Site/manage.py migrate**, or you'll go
 8. You can directly access the webserver from localhost:<port of choice> where you'll hit the home page. You navigate from it.
 9. I made a little start_project.sh withing the scripts/ where I placed the above commands and which could 
 be easy used with **bash scripts/start_project.sh** from the repo directory. You should not be in activated virtual environment to use it.
+10. To run unit tests: **Site/manage.py test --no-input --exclude-tag screenshots** or **./manage.py test --no-input --exclude-tag screenshots** from inside the Site directory.
 
 The project is developed under Ubuntu 20.04. I saw some issues while testing it under Win 10. If you'll
 test it under Win 10, you can message me to try to make it work smooth for you within Win 10.
