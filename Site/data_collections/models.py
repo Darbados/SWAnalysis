@@ -3,6 +3,7 @@ import io
 
 from django.core.files.base import ContentFile
 from django.db import models
+from django.utils import timezone
 
 from AnalysisBase.mixins import TimeStampMixin
 from people.models import Person
@@ -19,6 +20,7 @@ class DataCollection(TimeStampMixin):
 
     file = models.FileField(upload_to='collections/')
     collection_type = models.IntegerField(choices=COLLECTION_CHOICES, db_index=True)
+    resolved_at = models.DateTimeField(null=True)
 
     @property
     def collection_file_name(self):
@@ -46,6 +48,10 @@ class DataCollection(TimeStampMixin):
             file=ContentFile(contents.getvalue(), name='people_collection.csv'),
             collection_type=cls.COLLECTION_PEOPLE,
         )
+
+    def resolve(self):
+        self.resolved_at = timezone.now()
+        self.save(update_fields=('resolved_at',))
 
     class Meta:
         ordering = ('-created_at',)

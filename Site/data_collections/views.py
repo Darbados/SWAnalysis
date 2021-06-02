@@ -95,6 +95,24 @@ def collection_value_counts(request, collection_id):
 
 
 @require_POST
+@transaction.atomic
+def resolve(request, collection_id):
+    try:
+        collection = DataCollection.objects.select_for_update().get(id=collection_id)
+    except DataCollection.DoesNotExist:
+        messages.error(request, 'Requested collection does not exist anymore.')
+        return redirect('data_collections:index')
+
+    if collection.resolved_at:
+        messages.error(request, f'Collection {collection.collection_file_name} is already resolved')
+        return redirect('data_collections:index')
+
+    collection.resolve()
+    messages.success(request, f'Collection {collection.collection_file_name} is marked as resolved')
+    return redirect('data_collections:index')
+
+
+@require_POST
 def delete(request, collection_id):
     try:
         export = DataCollection.objects.get(id=collection_id)

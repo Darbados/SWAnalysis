@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:collection_id>/inspect', views.inspect, name='inspect'),
     path('<int:collection_id>/value-counts', views.collection_value_counts, name='value_counts'),
     path('<int:collection_id>/delete', views.delete, name='delete'),
+    path('<int:collection_id>/resolve', views.resolve, name='resolve'),
 ]

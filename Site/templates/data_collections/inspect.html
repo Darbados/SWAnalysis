@@ -8,6 +8,11 @@
             <h1>Collection - <span class="color-red">{{ collection.collection_file_name }}</span> inspect</h1>
         </header>
         <div>
+            <form action="{% url 'data_collections:resolve' collection.id %}" method="post">
+                {% csrf_token %}
+
+                <input type="submit" value="Resolve" class="button button-download">
+            </form>
             <table id="extractions">
                 <caption><a href="{% url 'data_collections:value_counts' collection.id %}" class="button button-inspect">Value counts</a></caption>
                 <thead>
