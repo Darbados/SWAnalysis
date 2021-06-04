@@ -106,6 +106,16 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.UnsaltedSHA1PasswordHasher',
+]
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -131,3 +141,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 SENDFILE_ROOT = MEDIA_ROOT
 SENDFILE_BACKEND = 'sendfile.backends.simple'
+
+AUTH_USER_MODEL = 'home.AnalystUser'
