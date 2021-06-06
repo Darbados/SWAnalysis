@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Register email{% endblock %}
+
+{% block body %}
+    <main>
+        <header>
+            <h1>Register email</h1>
+        </header>
+        <div>
+            <form method="post">
+                {% csrf_token %}
+
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                {{ form.password }}
+                {{ form.password.errors }}
+
+                <label for="{{ form.confirmed_password.id_for_label }}">Confirm password</label>
+                {{ form.confirmed_password }}
+                {{ form.confirmed_password.errors }}
+
+                <input type="submit" class="button button-inspect" value="Continue">
+            </form>
+        </div>
+    </main>
+{% endblock %}

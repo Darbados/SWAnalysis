@@ -22,14 +22,25 @@ class AnalystUserManager(BaseUserManager):
 
 
 class AnalystUser(AbstractBaseUser, TimeStampMixin):
-    USERNAME_FIELD = 'email'
-    EMAIL_FIELD = 'email'
+    GENDER_MALE = 1
+    GENDER_FEMALE = 2
+    GENDER_CHOICES = (
+        (GENDER_MALE, 'Male'),
+        (GENDER_FEMALE, 'Female'),
+    )
 
     email = models.EmailField(unique=True)
+
+    # Profiling fields
+    first_name = models.CharField(max_length=32, null=True)
+    last_name = models.CharField(max_length=32, null=True)
+    gender = models.IntegerField(choices=GENDER_CHOICES, null=True)
+
     is_staff = models.BooleanField(null=True)
     is_superuser = models.BooleanField(null=True)
 
-    objects = AnalystUserManager()
+    USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
 
     def __str__(self):
         return f'{self.email}, last logged in at {self.last_login}'

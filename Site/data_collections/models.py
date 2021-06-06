@@ -1,6 +1,7 @@
 import csv
 import io
 
+from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db import models
 from django.utils import timezone
@@ -21,6 +22,12 @@ class DataCollection(TimeStampMixin):
     file = models.FileField(upload_to='collections/')
     collection_type = models.IntegerField(choices=COLLECTION_CHOICES, db_index=True)
     resolved_at = models.DateTimeField(null=True)
+    resolved_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='resolved_collections',
+        null=True
+    )
 
     @property
     def collection_file_name(self):
@@ -49,9 +56,10 @@ class DataCollection(TimeStampMixin):
             collection_type=cls.COLLECTION_PEOPLE,
         )
 
-    def resolve(self):
+    def resolve(self, user):
         self.resolved_at = timezone.now()
-        self.save(update_fields=('resolved_at',))
+        self.resolved_by_id = user.id
+        self.save(update_fields=('resolved_at', 'resolved_by_id'))
 
     class Meta:
         ordering = ('-created_at',)
