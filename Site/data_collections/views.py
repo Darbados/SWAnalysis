@@ -1,6 +1,7 @@
 import petl
 import sendfile
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import transaction
 from django.shortcuts import render, redirect
@@ -15,6 +16,7 @@ from data_collections.transformers.character_transformer import PeopleDataTransf
 from data_collections.utils import get_rows_to_display
 
 
+@login_required
 def index(request):
     collections_qs = DataCollection.objects.filter(
         collection_type=DataCollection.COLLECTION_PEOPLE)
@@ -34,6 +36,7 @@ def index(request):
     return render(request, 'data_collections/collections.html', data)
 
 
+@login_required
 def download(request, collection_id):
     try:
         collection = DataCollection.objects.get(id=collection_id)
@@ -49,9 +52,10 @@ def download(request, collection_id):
     )
 
 
+@login_required
 def inspect(request, collection_id):
     try:
-        collection = DataCollection.objects.get(id=collection_id)
+        collection = DataCollection.objects.select_related('resolved_by').get(id=collection_id)
     except DataCollection.DoesNotExist:
         messages.error(request, 'Requested collection does not exist anymore.')
         return redirect('data_collections:index')
@@ -70,6 +74,7 @@ def inspect(request, collection_id):
     return render(request, 'data_collections/inspect.html', data)
 
 
+@login_required
 def collection_value_counts(request, collection_id):
     try:
         collection = DataCollection.objects.get(id=collection_id)
@@ -94,6 +99,26 @@ def collection_value_counts(request, collection_id):
     return render(request, 'data_collections/value_counts.html', data)
 
 
+@login_required
+@require_POST
+@transaction.atomic
+def resolve(request, collection_id):
+    try:
+        collection = DataCollection.objects.select_for_update().get(id=collection_id)
+    except DataCollection.DoesNotExist:
+        messages.error(request, 'Requested collection does not exist anymore.')
+        return redirect('data_collections:index')
+
+    if collection.resolved_at:
+        messages.error(request, f'Collection {collection.collection_file_name} is already resolved')
+        return redirect('data_collections:index')
+
+    collection.resolve(request.user)
+    messages.success(request, f'Collection {collection.collection_file_name} is marked as resolved')
+    return redirect('data_collections:index')
+
+
+@login_required
 @require_POST
 def delete(request, collection_id):
     try:
@@ -107,6 +132,7 @@ def delete(request, collection_id):
     return redirect('data_collections:index')
 
 
+@login_required
 @require_POST
 def save_collection_data(request):
     """
