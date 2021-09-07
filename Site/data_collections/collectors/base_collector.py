@@ -25,14 +25,14 @@ class BaseDataCollector:
         response = requests.get(url, params={'page': page}, timeout=self.RESPONSE_TIMEOUT)
         response.raise_for_status()
 
-        if response.status_code == 200:
-            response_json = response.json()
-            self.results.extend(response_json['results'])
-            if response_json['next'] is not None:
-                next_page_url_parsed = urlparse(response_json['next'])
-                return parse_qs(next_page_url_parsed.query)['page']
-        else:
+        if response.status_code != 200:
             return None
+
+        response_json = response.json()
+        self.results.extend(response_json['results'])
+        if response_json['next'] is not None:
+            next_page_url_parsed = urlparse(response_json['next'])
+            return parse_qs(next_page_url_parsed.query)['page']
 
     def collect(self, page=1):
         if self.RESOURCE_API_URL is None:
