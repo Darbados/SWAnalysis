@@ -26,11 +26,10 @@ class RegisterForm(forms.Form):
             self.add_error('password', 'Passwords must be equal')
 
     def save(self):
-        user = AnalystUser.objects.create(
+        return AnalystUser.objects.create(
             email=self.cleaned_data['email'],
             password=make_password(self.cleaned_data['password']),
         )
-        return user
 
     def get_email(self):
         return self.cleaned_data['email']

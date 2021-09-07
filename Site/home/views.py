@@ -23,10 +23,10 @@ def login(request):
     if user is not None:
         django_login(request, user)
         messages.success(request, f'User {request.user.email} logged in')
-        return redirect('home:index')
     else:
         messages.error(request, 'User not found')
-        return redirect('home:index')
+
+    return redirect('home:index')
 
 
 @login_required
