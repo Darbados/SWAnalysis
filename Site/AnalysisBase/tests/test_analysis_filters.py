@@ -6,7 +6,7 @@ from AnalysisBase.templatetags.analysis_filters import add_get_params
 class AnalysisFiltersTests(TestCase):
     def test_add_get_params(self):
         """ Test that add_get_params construct url and get params as expected. """
-        
+
         test_urls = {
             'https://www.example.com': {
                 'a': 1,

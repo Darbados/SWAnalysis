@@ -9,7 +9,7 @@ class ResponseAPIUrlException(Exception):
 
 class BaseDataCollector:
     """
-    Simple data collector that fetch the data from RESOURCE_URL concequently for all the
+    Simple data collector that fetch the data from RESOURCE_URL consequently for all the
     pages for the given API.
     """
 
@@ -21,6 +21,17 @@ class BaseDataCollector:
         self.results = []
 
     def _fetch_data(self, page=1):
+        """
+        Method used to fetch the data for a given page of the requested API.
+
+        Arguments:
+            page (int): We start from page #1. Indicate the current page we try to fetch.
+
+        Returns:
+            next_page (int): The next page that we can request to fetch.
+            None: If there are no other pages to request.
+        """
+
         url = urljoin(self.BASE_API_URL, self.RESOURCE_API_URL)
         response = requests.get(url, params={'page': page}, timeout=self.RESPONSE_TIMEOUT)
         response.raise_for_status()
